@@ -41,11 +41,6 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDsvec2Z_SVmQ23C4k7rBXIfIYB0EJC1eA" />
-
-        <activity
-            android:name="com.agnt.locate.Menu"
-            android:label="@string/title_activity_menu" >
-        </activity>
     </application>
 
 </manifest>
