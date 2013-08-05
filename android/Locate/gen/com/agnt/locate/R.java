@@ -180,6 +180,7 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_dark=0x7f020016;
         public static final int common_signin_btn_text_pressed_light=0x7f020017;
         public static final int ic_launcher=0x7f020018;
+        public static final int locate=0x7f020019;
     }
     public static final class id {
         public static final int action_settings=0x7f05000c;
@@ -197,12 +198,16 @@ containing a value of this type.
         public static final int textView2=0x7f05000a;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int activity_menu=0x7f030001;
+        public static final int activity_about=0x7f030000;
+        public static final int activity_help=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int activity_menu=0x7f030003;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
-        public static final int menu=0x7f090001;
+        public static final int about=0x7f090000;
+        public static final int help=0x7f090001;
+        public static final int main=0x7f090002;
+        public static final int menu=0x7f090003;
     }
     public static final class string {
         public static final int action_settings=0x7f060016;
@@ -286,6 +291,8 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f06000e;
         public static final int hello_world=0x7f060017;
+        public static final int title_activity_about=0x7f060019;
+        public static final int title_activity_help=0x7f06001a;
         public static final int title_activity_menu=0x7f060018;
     }
     public static final class style {

@@ -71,14 +71,14 @@ public class MainActivity extends Activity implements OnMapClickListener {
 
 		Marker guess = map.addMarker(new MarkerOptions().position(POINT)
 				.title("Your Guess")
-				.snippet("Click here to check your results!"));
+				.snippet("Click here to check submit results!"));
 		guess.showInfoWindow();
 
 		final double result = distance(POINT.latitude, POINT.longitude,
 				ANSWER.latitude, ANSWER.longitude, "K");
 
 		// moves camera to specified location
-		map.animateCamera(CameraUpdateFactory.newLatLngZoom(POINT, 7), 3000,
+		map.animateCamera(CameraUpdateFactory.newLatLngZoom(POINT, 7), 2000,
 				null);
 
 		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
