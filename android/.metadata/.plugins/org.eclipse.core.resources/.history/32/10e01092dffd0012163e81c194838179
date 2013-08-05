@@ -1,0 +1,75 @@
+package com.agnt.locate;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class MainActivity extends Activity {
+	static final LatLng GUESS = new LatLng(53.558, 9.927);
+	static final LatLng ANSWER = new LatLng(53.551, 9.993);
+	private GoogleMap map;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+				.getMap();
+		Marker hamburg = map.addMarker(new MarkerOptions().position(GUESS)
+				.title("Hamburg"));
+		Marker kiel = map.addMarker(new MarkerOptions()
+				.position(ANSWER)
+				.title("Kiel")
+				.snippet("This place is cool!!")
+				.icon(BitmapDescriptorFactory
+						.fromResource(R.drawable.ic_launcher)));
+
+		// Move the camera instantly to hamburg with a zoom of 15.
+		//map.moveCamera(CameraUpdateFactory.newLatLngZoom(GUESS, 15));
+
+		// Zoom in, animating the camera.
+		//map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+		
+		//Touch events
+
+		
+		//Above
+		double result = distance(0.0, 0.0, 9.2, 9.2, "K");
+		Toast.makeText(getBaseContext(), "Distance: " + Math.round(result)+" KMs apart!",
+				Toast.LENGTH_LONG).show();
+
+	}
+
+	private double distance(double lat1, double lon1, double lat2, double lon2,
+			String unit) {
+		double theta = lon1 - lon2;
+		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2))
+				+ Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2))
+				* Math.cos(deg2rad(theta));
+		dist = Math.acos(dist);
+		dist = rad2deg(dist);
+		dist = dist * 60 * 1.1515;
+		if (unit == "K") {
+			dist = dist * 1.609344;
+		} else if (unit == "N") {
+			dist = dist * 0.8684;
+		}
+		return (dist);
+	}
+
+	private double deg2rad(double deg) {
+		return (deg * Math.PI / 180.0);
+	}
+
+	private double rad2deg(double rad) {
+		return (rad * 180.0 / Math.PI);
+	}
+
+}

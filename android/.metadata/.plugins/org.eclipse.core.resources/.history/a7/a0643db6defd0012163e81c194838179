@@ -1,0 +1,38 @@
+package com.agnt.locate;
+
+import java.util.List;
+
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.MapView;
+
+public class Google_maps extends MainActivity {
+    
+
+    class MapOverlay extends Overlay
+    {
+
+        @Override
+        public boolean onTouchEvent(MotionEvent event, MapView mapView) 
+        {   
+            //---when user lifts his finger---
+            if (event.getAction() == 1) {                
+                GeoPoint p = mapView.getProjection().fromPixels(
+                    (int) event.getX(),
+                    (int) event.getY());
+                    Toast.makeText(getBaseContext(), 
+                        p.getLatitudeE6() / 1E6 + "," + 
+                        p.getLongitudeE6() /1E6 , 
+                        Toast.LENGTH_SHORT).show();
+
+
+            }                            
+            return false;
+        }        
+    }
+    @Override
+    protected boolean isRouteDisplayed() {
+        return false;
+    }}
