@@ -1,6 +1,8 @@
 package com.agnt.locate;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends Activity implements OnMapClickListener {
 	static LatLng GUESS = new LatLng(0.0, 0.0);
-	static final LatLng ANSWER = new LatLng(40.68917, 74.04444);
+	static final LatLng ANSWER = new LatLng(40.68917, -74.04444);
 	String NAME = "Statue Of Liberty";
 	private GoogleMap map;
 
@@ -31,13 +33,6 @@ public class MainActivity extends Activity implements OnMapClickListener {
 				Toast.LENGTH_SHORT).show();
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
-
-		// Marker kiel = map.addMarker(new MarkerOptions()
-		// .position(ANSWER)
-		// .title("Kiel")
-		// .snippet("This place is cool!!")
-		// .icon(BitmapDescriptorFactory
-		// .fromResource(R.drawable.ic_launcher)));
 
 		map.setOnMapClickListener(this);
 
@@ -71,7 +66,6 @@ public class MainActivity extends Activity implements OnMapClickListener {
 
 	@Override
 	public void onMapClick(LatLng POINT) {
-		// TODO Auto-generated method stub
 		// clears previously selected point
 		map.clear();
 
@@ -90,12 +84,61 @@ public class MainActivity extends Activity implements OnMapClickListener {
 		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 			@Override
 			public void onInfoWindowClick(Marker marker) {
-				Toast.makeText(
-						getBaseContext(),
-						"You are: " + Math.round(result) + " KMs away from "
-								+ NAME, Toast.LENGTH_LONG).show();
+				show_diag(Math.round(result));
 			}
+
+			private void show_diag(long result) {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+						MainActivity.this);
+
+				// set title
+				alertDialogBuilder.setTitle("Your Score!");
+
+				// set dialog message
+				alertDialogBuilder
+						.setMessage(
+								"You are " + result + " KMs away from " + NAME
+										+ "\n\nYour score is: "
+										+ getScore(result)+"\n\nDo you want to play again?")
+						.setCancelable(false)
+						.setPositiveButton("Yes!",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+
+										dialog.cancel();
+									}
+								})
+						.setNegativeButton("No",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+
+										MainActivity.this.finish();
+									}
+								});
+
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+
+				// show it
+				alertDialog.show();
+			}
+
 		});
 	}
 
+	private String getScore(long result) {
+		if (result >= 0 && result <= 10)
+			return "15 \nCongratulations!!";
+		else if (result >= 0 && result <= 10)
+			return "11\nGood Job!";
+		else if (result >= 10 && result <= 100)
+			return "7 \nNice!";
+		else if (result >= 100 && result <= 1000)
+			return "3 \nCool!";
+		else if (result >= 1000 && result <= 10000)
+			return "0 \nWOW! You were way off course!\nBetter luck next time!";
+		return null;
+	}
 }
