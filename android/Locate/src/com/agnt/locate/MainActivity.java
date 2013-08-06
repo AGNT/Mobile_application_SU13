@@ -2,6 +2,7 @@ package com.agnt.locate;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,8 +15,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends Activity implements OnMapClickListener {
-	static LatLng GUESS = new LatLng(53.558, 9.927);
-	static final LatLng ANSWER = new LatLng(53.551, 9.993);
+	static LatLng GUESS = new LatLng(0.0, 0.0);
+	static final LatLng ANSWER = new LatLng(40.68917, 74.04444);
+	String NAME = "Statue Of Liberty";
 	private GoogleMap map;
 
 	@Override
@@ -23,6 +25,10 @@ public class MainActivity extends Activity implements OnMapClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		TextView name = (TextView) findViewById(R.id.textView1);
+		name.setText("Find: " + NAME);
+		Toast.makeText(getBaseContext(), "Please wait for the map to load.",
+				Toast.LENGTH_SHORT).show();
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
 
@@ -84,9 +90,10 @@ public class MainActivity extends Activity implements OnMapClickListener {
 		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 			@Override
 			public void onInfoWindowClick(Marker marker) {
-				Toast.makeText(getBaseContext(),
-						"Distance: " + Math.round(result) + " KMs apart!",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(
+						getBaseContext(),
+						"You are: " + Math.round(result) + " KMs away from "
+								+ NAME, Toast.LENGTH_LONG).show();
 			}
 		});
 	}

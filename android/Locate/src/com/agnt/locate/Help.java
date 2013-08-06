@@ -1,8 +1,7 @@
 package com.agnt.locate;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.os.Bundle;
 
 public class Help extends Activity {
 

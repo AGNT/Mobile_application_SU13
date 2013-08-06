@@ -1,0 +1,84 @@
+package com.agnt.locate;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+public class About extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_about);
+
+		boolean loadingFinished = true;
+		boolean redirect = false;
+
+		WebView wv = (WebView) findViewById(R.id.webView);
+		wv.loadUrl("https://github.com/AGNT/Mobile_application_SU13/blob/master/README.md");
+		wv.setWebViewClient(new WebViewClient() {
+
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view,
+					String urlNewString) {
+				if (!loadingFinished) {
+					redirect = true;
+				}
+
+				loadingFinished = false;
+				webView.loadUrl(urlNewString);
+				return true;
+			}
+
+			@Override
+			public void onPageStarted(WebView view, String url) {
+				loadingFinished = false;
+				// SHOW LOADING IF IT ISNT ALREADY VISIBLE
+			}
+
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				if (!redirect) {
+					loadingFinished = true;
+				}
+
+				if (loadingFinished && !redirect) {
+					// HIDE LOADING IT HAS FINISHED
+				} else {
+					redirect = false;
+				}
+
+			}
+		});
+		// wv.loadUrl("file:///android_asset/README.md");
+	}
+
+	public class downloadAbout extends AsyncTask<String, Integer, String> {
+
+		ProgressDialog dialog;
+
+		protected void onPreExecute() {
+			dialog = new ProgressDialog(About.this);
+			dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			dialog.setTitle("Downloading");
+			dialog.setMessage("Please ensure that you are connected to the internet");
+			dialog.show();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			WebView wv = (WebView) findViewById(R.id.webView);
+			wv.loadUrl("https://github.com/AGNT/Mobile_application_SU13/blob/master/README.md");
+			return null;
+		}
+
+		protected void onPostExecute(String result) {
+			dialog.dismiss();
+		}
+
+	}
+
+}
