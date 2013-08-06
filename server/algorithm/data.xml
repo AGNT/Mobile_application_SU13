@@ -1,0 +1,22 @@
+<locations>
+	<location>
+		<name>Statue of Liberty</name>
+		<latitude>4.6894</latitude>
+		<longitude>74.0446</longitude>
+	</location>
+	<location>
+		<name>Somewhere I</name>
+		<latitude>7.6894</latitude>
+		<longitude>44.0446</longitude>
+	</location>
+	<location>
+		<name>Somewhere II</name>
+		<latitude>123.3929</latitude>
+		<longitude>20.2346</longitude>
+	</location>
+	<location>
+		<name>Somewhere III</name>
+		<latitude>42.314</latitude>
+		<longitude>42.314</longitude>
+	</location>
+</locations>
