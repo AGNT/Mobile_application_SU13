@@ -14,6 +14,9 @@ Our team
  <li><a href="https://github.com/arpith20">Arpith K Sharma</a></li>
 </ul>
 
+Project Details
+---------------
+To be updated...
 
 Note from professor: Cay Horstmann 
 ----------------------------------
