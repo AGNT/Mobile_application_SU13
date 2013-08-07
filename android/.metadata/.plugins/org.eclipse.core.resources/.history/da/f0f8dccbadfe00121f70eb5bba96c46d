@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends Activity implements OnMapClickListener {
+	static LatLng GUESS = new LatLng(0.0, 0.0);
 	static final LatLng ANSWER = new LatLng(40.68917, -74.04444);
 	String NAME = "Statue Of Liberty";
 	private GoogleMap map;
