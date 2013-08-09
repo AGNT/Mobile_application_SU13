@@ -1,9 +1,14 @@
 package com.agnt.locate;
 
+import java.text.DecimalFormat;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
+import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,25 +20,62 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 
 public class MainActivity extends Activity implements OnMapClickListener {
 	static final LatLng ANSWER = new LatLng(40.68917, -74.04444);
 	String NAME = "Statue Of Liberty";
 	private GoogleMap map;
+	TextView display_latlng;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_main);
+		
+		display_latlng=(TextView)findViewById(R.id.brought_by);
 
-		TextView name = (TextView) findViewById(R.id.textView1);
-		name.setText("Find: " + NAME);
 		Toast.makeText(getBaseContext(), "Please wait for the map to load.",
 				Toast.LENGTH_SHORT).show();
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
 
 		map.setOnMapClickListener(this);
+		
+		SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        layout.setShadowDrawable(getResources().getDrawable(R.drawable.above_shadow));
+        layout.setPanelSlideListener(new PanelSlideListener() {
+
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                if (slideOffset < 0.2) {
+                    if (getActionBar().isShowing()) {
+                        getActionBar().hide();
+                    }
+                } else {
+                    if (!getActionBar().isShowing()) {
+                        getActionBar().show();
+                    }
+                }
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+
+
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+
+
+            }
+        });
+        TextView t = (TextView) findViewById(R.id.tv_q);
+        t.setText("Find: "+NAME);
+        t.setMovementMethod(LinkMovementMethod.getInstance());
 
 	}
 
@@ -65,6 +107,10 @@ public class MainActivity extends Activity implements OnMapClickListener {
 
 	@Override
 	public void onMapClick(LatLng POINT) {
+		DecimalFormat df = new DecimalFormat();
+		df.setMaximumFractionDigits(4);
+		display_latlng.setText("Your coordinates:\n"+df.format(POINT.latitude)+df.format(POINT.longitude));
+		
 		// clears previously selected point
 		map.clear();
 
