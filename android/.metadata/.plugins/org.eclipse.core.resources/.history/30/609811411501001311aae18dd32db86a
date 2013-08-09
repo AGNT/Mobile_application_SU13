@@ -25,7 +25,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 
 public class MainActivity extends Activity implements OnMapClickListener {
 	static final LatLng ANSWER = new LatLng(40.68917, -74.04444);
-	String NAME = null;
+	String NAME = "Statue Of Liberty";
 	private GoogleMap map;
 	TextView display_latlng;
 	private int points = 0;
@@ -35,8 +35,8 @@ public class MainActivity extends Activity implements OnMapClickListener {
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_main);
-
-		display_latlng = (TextView) findViewById(R.id.brought_by);
+		
+		display_latlng=(TextView)findViewById(R.id.brought_by);
 
 		Toast.makeText(getBaseContext(), "Please wait for the map to load.",
 				Toast.LENGTH_SHORT).show();
@@ -44,38 +44,39 @@ public class MainActivity extends Activity implements OnMapClickListener {
 				.getMap();
 
 		map.setOnMapClickListener(this);
-
+		
 		SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-		layout.setShadowDrawable(getResources().getDrawable(
-				R.drawable.above_shadow));
-		layout.setPanelSlideListener(new PanelSlideListener() {
+        layout.setShadowDrawable(getResources().getDrawable(R.drawable.above_shadow));
+        layout.setPanelSlideListener(new PanelSlideListener() {
 
-			@Override
-			public void onPanelSlide(View panel, float slideOffset) {
-				if (slideOffset < 0.2) {
-					if (getActionBar().isShowing()) {
-						getActionBar().hide();
-					}
-				} else {
-					if (!getActionBar().isShowing()) {
-						getActionBar().show();
-					}
-				}
-			}
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                if (slideOffset < 0.2) {
+                    if (getActionBar().isShowing()) {
+                        getActionBar().hide();
+                    }
+                } else {
+                    if (!getActionBar().isShowing()) {
+                        getActionBar().show();
+                    }
+                }
+            }
 
-			@Override
-			public void onPanelExpanded(View panel) {
+            @Override
+            public void onPanelExpanded(View panel) {
 
-			}
 
-			@Override
-			public void onPanelCollapsed(View panel) {
+            }
 
-			}
-		});
-		TextView t = (TextView) findViewById(R.id.tv_q);
-		t.setText("Find: " + NAME);
-		t.setMovementMethod(LinkMovementMethod.getInstance());
+            @Override
+            public void onPanelCollapsed(View panel) {
+
+
+            }
+        });
+        TextView t = (TextView) findViewById(R.id.tv_q);
+        t.setText("Find: "+NAME);
+        t.setMovementMethod(LinkMovementMethod.getInstance());
 
 	}
 
@@ -109,9 +110,8 @@ public class MainActivity extends Activity implements OnMapClickListener {
 	public void onMapClick(LatLng POINT) {
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(4);
-		display_latlng.setText("Your coordinates:\n"
-				+"(" +df.format(POINT.latitude) +", "+df.format(POINT.longitude)+")");
-
+		display_latlng.setText("Your coordinates:\n"+df.format(POINT.latitude)+df.format(POINT.longitude));
+		
 		// clears previously selected point
 		map.clear();
 
@@ -145,8 +145,7 @@ public class MainActivity extends Activity implements OnMapClickListener {
 						.setMessage(
 								"You are " + result + " KMs away from " + NAME
 										+ "\n\nYour score is: "
-										+ getScore(result)
-										+ "\n\nDo you want to play again?")
+										+ getScore(result)+"\n\nDo you want to play again?")
 						.setCancelable(false)
 						.setPositiveButton("Yes!",
 								new DialogInterface.OnClickListener() {
@@ -176,35 +175,6 @@ public class MainActivity extends Activity implements OnMapClickListener {
 	}
 
 	private String getScore(long result) {
-		double f = 0;
-		if (result >= 0 && result <= 500) {
-			if (result <= 50)
-				f = 0;
-			else if (result > 50 && result <= 100)
-				f = 0.5;
-			else if (result > 100 && result <= 200)
-				f = 1;
-			else if (result > 200 && result <= 300)
-				f = 2;
-			else if (result > 300 && result <= 1000)
-				f = 3;
-			points = 5000 - (int) (f * result);
-		} else
-			points = 0;
-
-		if (result >= 0 && result <= 50)
-			return points + " \nCongratulations!!";
-		else if (result > 50 && result <= 100)
-			return points + " \nAwesome!";
-		else if (result > 100 && result <= 200)
-			return points + " \nGood Job!";
-		else if (result > 200 && result <= 300)
-			return points + " \nNice!";
-		else if (result > 300 && result <= 1000)
-			return points + " \nCool!";
-		else if (result > 1000)
-			return points
-					+ " \nWOW! You were way off course!\nBetter luck next time!";
-		return null;
+		
 	}
 }

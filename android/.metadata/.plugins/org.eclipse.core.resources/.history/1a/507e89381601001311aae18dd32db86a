@@ -25,7 +25,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 
 public class MainActivity extends Activity implements OnMapClickListener {
 	static final LatLng ANSWER = new LatLng(40.68917, -74.04444);
-	String NAME = null;
+	String NAME = "Statue Of Liberty";
 	private GoogleMap map;
 	TextView display_latlng;
 	private int points = 0;
@@ -186,7 +186,7 @@ public class MainActivity extends Activity implements OnMapClickListener {
 				f = 1;
 			else if (result > 200 && result <= 300)
 				f = 2;
-			else if (result > 300 && result <= 1000)
+			else if (result > 300 && result <= 500)
 				f = 3;
 			points = 5000 - (int) (f * result);
 		} else
@@ -200,7 +200,7 @@ public class MainActivity extends Activity implements OnMapClickListener {
 			return points + " \nGood Job!";
 		else if (result > 200 && result <= 300)
 			return points + " \nNice!";
-		else if (result > 300 && result <= 1000)
+		else if (result > 300 && result <= 500)
 			return points + " \nCool!";
 		else if (result > 1000)
 			return points

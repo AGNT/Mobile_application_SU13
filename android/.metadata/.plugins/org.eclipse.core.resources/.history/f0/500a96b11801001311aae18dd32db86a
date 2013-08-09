@@ -25,7 +25,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 
 public class MainActivity extends Activity implements OnMapClickListener {
 	static final LatLng ANSWER = new LatLng(40.68917, -74.04444);
-	String NAME = null;
+	String NAME = "Statue Of Liberty";
 	private GoogleMap map;
 	TextView display_latlng;
 	private int points = 0;
