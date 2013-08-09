@@ -79,7 +79,7 @@ public class Menu extends Activity {
 	private boolean isGooglePlayServicesInstalled() {
 		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		if (status != ConnectionResult.SUCCESS) {
-			Toast.makeText(this, "This device is not supported.\nGoogle Play Services is required to run this app!",
+			Toast.makeText(this, "This device is not supported.",
 					Toast.LENGTH_LONG).show();
 			finish();
 			return false;

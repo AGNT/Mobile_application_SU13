@@ -9,21 +9,14 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class Menu extends Activity {
 	private static final String GooglePlayStorePackageNameOld = "com.google.market";
 	private static final String GooglePlayStorePackageNameNew = "com.google.vending";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
-
-		isGooglePlayServicesInstalled();
 
 		if (!isNetworkAvailable()) {
 			AlertDialog.Builder alertDialog = new AlertDialog.Builder(Menu.this);
@@ -74,16 +67,5 @@ public class Menu extends Activity {
 		NetworkInfo activeNetworkInfo = connectivityManager
 				.getActiveNetworkInfo();
 		return activeNetworkInfo != null;
-	}
-
-	private boolean isGooglePlayServicesInstalled() {
-		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-		if (status != ConnectionResult.SUCCESS) {
-			Toast.makeText(this, "This device is not supported.\nGoogle Play Services is required to run this app!",
-					Toast.LENGTH_LONG).show();
-			finish();
-			return false;
-		}
-		return true;
 	}
 }
