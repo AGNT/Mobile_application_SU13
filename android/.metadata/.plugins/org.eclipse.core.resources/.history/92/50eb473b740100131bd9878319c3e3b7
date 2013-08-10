@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+<!--  
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        class="com.google.android.gms.maps.MapFragment" />
+-->
+    
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.google.android.gms.maps.MapFragment" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#eee"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_q"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:gravity="center|bottom"
+                android:text="Cannot connecet to server...."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/brought_by"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:autoLink="web"
+                android:gravity="center|top"
+                android:text="Point the correct location on the map"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="fitStart"
+                android:src="@drawable/graphic" >
+            </ImageView>
+        </LinearLayout>
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+    
+
+</RelativeLayout>

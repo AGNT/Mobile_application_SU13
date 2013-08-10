@@ -1,14 +1,23 @@
 package com.agnt.locate;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +33,22 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 
 public class MainActivity extends Activity implements OnMapClickListener {
-	static final LatLng ANSWER = new LatLng(40.68917, -74.04444);
+
+	LatLng ANSWER = new LatLng(40.68917, -74.04444);
 	String NAME = null;
-	private GoogleMap map;
-	TextView display_latlng;
 	private int points = 0;
+
+	String url = "http://cs13.cs.sjsu.edu:8080/team2/target/random";
+	Document doc;
+	String[] items = new String[4];
+
+	TextView display_latlng;
+	TextView display_name;
+
+	private GoogleMap map;
+	
+	WebView wv;
+	WebSettings settings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +93,39 @@ public class MainActivity extends Activity implements OnMapClickListener {
 
 			}
 		});
-		TextView t = (TextView) findViewById(R.id.tv_q);
-		t.setText("Find: " + NAME);
-		t.setMovementMethod(LinkMovementMethod.getInstance());
+		display_name = (TextView) findViewById(R.id.tv_q);
+		display_name.setText("Find: " + NAME);
+		display_name.setMovementMethod(LinkMovementMethod.getInstance());
 
+		wv = (WebView) findViewById(R.id.webView);
+		settings = wv.getSettings();
+		settings.setBuiltInZoomControls(false);
+		settings.setUseWideViewPort(true);
+		settings.setJavaScriptEnabled(true);
+		settings.setSupportMultipleWindows(true);
+		settings.setJavaScriptCanOpenWindowsAutomatically(true);
+		settings.setLoadsImagesAutomatically(true);
+		settings.setLightTouchEnabled(true);
+		settings.setDomStorageEnabled(true);
+		settings.setLoadWithOverviewMode(true);
+		setDrawerImage();
 	}
+	
+	
+
+	private void setDrawerImage() {
+		String imgurl = "https://www.google.com/search?site=imghp&tbm=isch&q="
+				+ NAME;
+		wv.setWebViewClient(new WebViewClient() {
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				view.loadUrl(url);
+				return false;
+			}
+		});
+		wv.loadUrl(imgurl);
+	}
+
+
 
 	// calculate distance
 	private double distance(double lat1, double lon1, double lat2, double lon2,
@@ -109,8 +157,9 @@ public class MainActivity extends Activity implements OnMapClickListener {
 	public void onMapClick(LatLng POINT) {
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(4);
-		display_latlng.setText("Your coordinates:\n"
-				+"(" +df.format(POINT.latitude) +", "+df.format(POINT.longitude)+")");
+		display_latlng.setText("Your coordinates:\n" + "("
+				+ df.format(POINT.latitude) + ", " + df.format(POINT.longitude)
+				+ ")");
 
 		// clears previously selected point
 		map.clear();
@@ -152,7 +201,8 @@ public class MainActivity extends Activity implements OnMapClickListener {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int id) {
-
+										map.clear();
+										updateQuestion();
 										dialog.cancel();
 									}
 								})
@@ -167,44 +217,104 @@ public class MainActivity extends Activity implements OnMapClickListener {
 
 				// create alert dialog
 				AlertDialog alertDialog = alertDialogBuilder.create();
-
 				// show it
 				alertDialog.show();
 			}
-
 		});
 	}
 
 	private String getScore(long result) {
 		double f = 0;
-		if (result >= 0 && result <= 500) {
-			if (result <= 50)
+		if (result >= 0 && result <= 5000) {
+			if (result <= 500)
 				f = 0;
-			else if (result > 50 && result <= 100)
+			else if (result > 500 && result <= 1000)
 				f = 0.5;
-			else if (result > 100 && result <= 200)
+			else if (result > 1000 && result <= 2000)
 				f = 1;
-			else if (result > 200 && result <= 300)
+			else if (result > 2000 && result <= 3000)
 				f = 2;
-			else if (result > 300 && result <= 1000)
+			else if (result > 3000 && result <= 4000)
 				f = 3;
-			points = 5000 - (int) (f * result);
+			points = 5000 - (int) (f * (result / 10));
 		} else
 			points = 0;
 
-		if (result >= 0 && result <= 50)
+		if (result >= 0 && result <= 500)
 			return points + " \nCongratulations!!";
-		else if (result > 50 && result <= 100)
+		else if (result > 500 && result <= 1000)
 			return points + " \nAwesome!";
-		else if (result > 100 && result <= 200)
+		else if (result > 1000 && result <= 2000)
 			return points + " \nGood Job!";
-		else if (result > 200 && result <= 300)
+		else if (result > 2000 && result <= 3000)
 			return points + " \nNice!";
-		else if (result > 300 && result <= 1000)
+		else if (result > 3000 && result <= 4000)
 			return points + " \nCool!";
-		else if (result > 1000)
+		else if (result > 4000)
 			return points
 					+ " \nWOW! You were way off course!\nBetter luck next time!";
 		return null;
 	}
+
+	// The following code will download the Question from the server
+	private void updateQuestion() {
+		new getDataAsync().execute();
+	}
+
+	private String[] downloadNewQuestion() {
+		try {
+			doc = Jsoup.connect(url).get();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String title = doc.body().text();
+		return title.split(":");
+
+	}
+
+	public class getDataAsync extends AsyncTask<String, Integer, String> {
+
+		ProgressDialog dialog;
+
+		protected void onPreExecute() {
+			dialog = new ProgressDialog(MainActivity.this);
+			dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			dialog.setTitle("Downloading");
+			dialog.setMessage("Getting your Question from the server!!");
+			dialog.show();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			items = downloadNewQuestion();
+			return null;
+		}
+
+		protected void onPostExecute(String result) {
+			double[] coordinates = new double[2];
+			NAME = items[0];
+			coordinates[0] = Double.parseDouble(items[1]);
+			coordinates[1] = Double.parseDouble(items[2]);
+			ANSWER = new LatLng(coordinates[0], coordinates[1]);
+			dialog.dismiss();
+
+			// update UI elements
+			display_name.setText("Where is " + NAME + "?");
+			setDrawerImage();
+		}
+	}
+
+	@Override
+	protected void onStart() {
+		updateQuestion();
+		super.onStart();
+	}
+
+	@Override
+	protected void onStop() {
+		Toast.makeText(getBaseContext(), "Thank you for playing our game",
+				Toast.LENGTH_SHORT).show();
+		super.onStop();
+	}
+
 }
