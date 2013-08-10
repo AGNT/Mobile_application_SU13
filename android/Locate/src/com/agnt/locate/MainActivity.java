@@ -35,7 +35,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 public class MainActivity extends Activity implements OnMapClickListener {
 
 	LatLng ANSWER = new LatLng(40.68917, -74.04444);
-	String NAME = null;
+	LatLng RESET = new LatLng(0.0, 0.0);
+	String NAME = "<Still Loading>";
 	private int points = 0;
 
 	String url = "http://cs13.cs.sjsu.edu:8080/team2/target/random";
@@ -46,7 +47,7 @@ public class MainActivity extends Activity implements OnMapClickListener {
 	TextView display_name;
 
 	private GoogleMap map;
-	
+
 	WebView wv;
 	WebSettings settings;
 
@@ -55,7 +56,7 @@ public class MainActivity extends Activity implements OnMapClickListener {
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_main);
-
+		
 		display_latlng = (TextView) findViewById(R.id.brought_by);
 
 		Toast.makeText(getBaseContext(), "Please wait for the map to load.",
@@ -94,7 +95,7 @@ public class MainActivity extends Activity implements OnMapClickListener {
 			}
 		});
 		display_name = (TextView) findViewById(R.id.tv_q);
-		display_name.setText("Find: " + NAME);
+		//display_name.setText("Find: " + NAME);
 		display_name.setMovementMethod(LinkMovementMethod.getInstance());
 
 		wv = (WebView) findViewById(R.id.webView);
@@ -108,10 +109,10 @@ public class MainActivity extends Activity implements OnMapClickListener {
 		settings.setLightTouchEnabled(true);
 		settings.setDomStorageEnabled(true);
 		settings.setLoadWithOverviewMode(true);
-		setDrawerImage();
+		
+		updateQuestion();
+		
 	}
-	
-	
 
 	private void setDrawerImage() {
 		String imgurl = "https://www.google.com/search?site=imghp&tbm=isch&q="
@@ -124,8 +125,6 @@ public class MainActivity extends Activity implements OnMapClickListener {
 		});
 		wv.loadUrl(imgurl);
 	}
-
-
 
 	// calculate distance
 	private double distance(double lat1, double lon1, double lat2, double lon2,
@@ -204,6 +203,7 @@ public class MainActivity extends Activity implements OnMapClickListener {
 										map.clear();
 										updateQuestion();
 										dialog.cancel();
+
 									}
 								})
 						.setNegativeButton("No",
@@ -280,33 +280,36 @@ public class MainActivity extends Activity implements OnMapClickListener {
 			dialog = new ProgressDialog(MainActivity.this);
 			dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			dialog.setTitle("Downloading");
-			dialog.setMessage("Getting your Question from the server!!");
+			dialog.setMessage("Getting your Question from the server!!\nPleazse wait");
 			dialog.show();
 		}
 
 		@Override
 		protected String doInBackground(String... params) {
 			items = downloadNewQuestion();
-			return null;
-		}
-
-		protected void onPostExecute(String result) {
 			double[] coordinates = new double[2];
 			NAME = items[0];
 			coordinates[0] = Double.parseDouble(items[1]);
 			coordinates[1] = Double.parseDouble(items[2]);
 			ANSWER = new LatLng(coordinates[0], coordinates[1]);
-			dialog.dismiss();
+			return null;
+		}
 
+		protected void onPostExecute(String result) {
+			dialog.dismiss();
+			// reset map
+			map.animateCamera(CameraUpdateFactory.newLatLngZoom(RESET, 2),
+					3000, null);
 			// update UI elements
 			display_name.setText("Where is " + NAME + "?");
+			display_latlng.setText("Point the correct location on the map\nTouch here to see hint");
 			setDrawerImage();
 		}
 	}
 
 	@Override
 	protected void onStart() {
-		updateQuestion();
+		
 		super.onStart();
 	}
 

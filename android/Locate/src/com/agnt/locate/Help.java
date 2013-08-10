@@ -1,14 +1,24 @@
 package com.agnt.locate;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.webkit.WebView;
+import android.widget.Toast;
 
 public class Help extends Activity {
-
+	
+	
+	ProgressDialog dialog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_help);
+		setContentView(R.layout.activity_about);
+		
+		Toast.makeText(getBaseContext(), "Loading Webpage...\nPlease wait",Toast.LENGTH_LONG).show();
+		
+		WebView wv = (WebView) findViewById(R.id.webView);
+		wv.loadUrl("https://github.com/AGNT/Mobile_application_SU13/blob/master/README.md");
 	}
-
 }

@@ -11,5 +11,6 @@
 <fullyQualifiedTypeName name="org.jsoup.nodes.Document"/>
 <fullyQualifiedTypeName name="android.widget.TextView"/>
 <fullyQualifiedTypeName name="com.agnt.locate.R.id"/>
+<fullyQualifiedTypeName name="com.haarman.listviewanimations.ArrayAdapter"/>
 <fullyQualifiedTypeName name="android.widget.Toast"/>
 </qualifiedTypeNameHistroy>

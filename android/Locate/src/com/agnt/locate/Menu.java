@@ -35,8 +35,8 @@ public class Menu extends Activity {
 		}
 
 		Button play = (Button) findViewById(R.id.button1);
-		Button help = (Button) findViewById(R.id.button2);
-		Button about = (Button) findViewById(R.id.button3);
+		Button about = (Button) findViewById(R.id.button2);
+		Button help = (Button) findViewById(R.id.button3);
 
 		play.setOnClickListener(new View.OnClickListener() {
 

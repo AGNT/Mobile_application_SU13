@@ -8,6 +8,6 @@ package com.sothree.slidinguppanel.library;
 
 public final class R {
 	public static final class drawable {
-		public static final int above_shadow = 0x7f020000;
+		public static final int above_shadow = 0x7f020001;
 	}
 }

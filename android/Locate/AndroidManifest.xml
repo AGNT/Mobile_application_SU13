@@ -45,7 +45,7 @@
         </activity>
         <activity
             android:name="com.agnt.locate.About"
-            android:label="@string/title_activity_about" >
+            android:label="About US" >
         </activity>
         <activity
             android:name="com.agnt.locate.Help"

@@ -25,19 +25,19 @@
             <TextView
                 android:id="@+id/tv_q"
                 android:layout_width="match_parent"
-                android:layout_height="34dp"
+                android:layout_height="wrap_content"
                 android:gravity="center|bottom"
-                android:text="Cannot connecet to server...."
-                android:textSize="16sp" />
+                android:text="Where is server!?"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/brought_by"
                 android:layout_width="match_parent"
-                android:layout_height="34dp"
+                android:layout_height="40dp"
                 android:autoLink="web"
                 android:gravity="center|top"
-                android:text="Point the correct location on the map"
-                android:textSize="14sp" />
+                android:text="Point the correct location on the map\nTouch here to see hint"
+                android:textSize="16sp" />
 
             <WebView
                 android:id="@+id/webView"
