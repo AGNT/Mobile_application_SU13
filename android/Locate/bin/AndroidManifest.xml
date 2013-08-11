@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="17"
+        android:minSdkVersion="16"
         android:targetSdkVersion="17" />
 
     <permission
@@ -54,7 +54,12 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDsvec2Z_SVmQ23C4k7rBXIfIYB0EJC1eA" />
+            android:value="AIzaSyCGDM16gHSSFsPMIUHBDFiZOskCKm9MXGE" />
+
+        <activity
+            android:name="com.agnt.locate.FinalPoints"
+            android:label="@string/title_activity_final_points" >
+        </activity>
     </application>
 
 </manifest>

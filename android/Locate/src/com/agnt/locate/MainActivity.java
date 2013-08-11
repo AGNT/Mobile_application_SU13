@@ -9,7 +9,11 @@ import org.jsoup.nodes.Document;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
@@ -34,9 +38,11 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 
 public class MainActivity extends Activity implements OnMapClickListener {
 
-	LatLng ANSWER = new LatLng(40.68917, -74.04444);
+	LatLng ANSWER = new LatLng(0.0, 0.0);
 	LatLng RESET = new LatLng(0.0, 0.0);
 	String NAME = "<Still Loading>";
+
+	private int final_point = 0;
 	private int points = 0;
 
 	String url = "http://cs13.cs.sjsu.edu:8080/team2/target/random";
@@ -56,62 +62,71 @@ public class MainActivity extends Activity implements OnMapClickListener {
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_main);
-		
-		display_latlng = (TextView) findViewById(R.id.brought_by);
 
-		Toast.makeText(getBaseContext(), "Please wait for the map to load.",
-				Toast.LENGTH_SHORT).show();
-		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-				.getMap();
+		if (!isNetworkAvailable()) {
+			Toast.makeText(getBaseContext(),
+					"You need an active Internet connection to play this game",
+					Toast.LENGTH_LONG).show();
+			MainActivity.this.finish();
+		} else {
 
-		map.setOnMapClickListener(this);
+			display_latlng = (TextView) findViewById(R.id.brought_by);
 
-		SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-		layout.setShadowDrawable(getResources().getDrawable(
-				R.drawable.above_shadow));
-		layout.setPanelSlideListener(new PanelSlideListener() {
+			Toast.makeText(getBaseContext(),
+					"Please wait for the map to load.", Toast.LENGTH_SHORT)
+					.show();
+			map = ((MapFragment) getFragmentManager()
+					.findFragmentById(R.id.map)).getMap();
 
-			@Override
-			public void onPanelSlide(View panel, float slideOffset) {
-				if (slideOffset < 0.2) {
-					if (getActionBar().isShowing()) {
-						getActionBar().hide();
-					}
-				} else {
-					if (!getActionBar().isShowing()) {
-						getActionBar().show();
+			map.setOnMapClickListener(this);
+
+			SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+			layout.setShadowDrawable(getResources().getDrawable(
+					R.drawable.above_shadow));
+			layout.setPanelSlideListener(new PanelSlideListener() {
+
+				@Override
+				public void onPanelSlide(View panel, float slideOffset) {
+					if (slideOffset < 0.2) {
+						if (getActionBar().isShowing()) {
+							getActionBar().hide();
+						}
+					} else {
+						if (!getActionBar().isShowing()) {
+							getActionBar().show();
+						}
 					}
 				}
-			}
 
-			@Override
-			public void onPanelExpanded(View panel) {
+				@Override
+				public void onPanelExpanded(View panel) {
 
-			}
+				}
 
-			@Override
-			public void onPanelCollapsed(View panel) {
+				@Override
+				public void onPanelCollapsed(View panel) {
 
-			}
-		});
-		display_name = (TextView) findViewById(R.id.tv_q);
-		//display_name.setText("Find: " + NAME);
-		display_name.setMovementMethod(LinkMovementMethod.getInstance());
+				}
+			});
+			
+			display_name = (TextView) findViewById(R.id.tv_q);
+			display_name.setMovementMethod(LinkMovementMethod.getInstance());
 
-		wv = (WebView) findViewById(R.id.webView);
-		settings = wv.getSettings();
-		settings.setBuiltInZoomControls(false);
-		settings.setUseWideViewPort(true);
-		settings.setJavaScriptEnabled(true);
-		settings.setSupportMultipleWindows(true);
-		settings.setJavaScriptCanOpenWindowsAutomatically(true);
-		settings.setLoadsImagesAutomatically(true);
-		settings.setLightTouchEnabled(true);
-		settings.setDomStorageEnabled(true);
-		settings.setLoadWithOverviewMode(true);
-		
-		updateQuestion();
-		
+			wv = (WebView) findViewById(R.id.webView);
+			settings = wv.getSettings();
+			settings.setBuiltInZoomControls(false);
+			settings.setUseWideViewPort(true);
+			settings.setJavaScriptEnabled(true);
+			settings.setSupportMultipleWindows(true);
+			settings.setJavaScriptCanOpenWindowsAutomatically(true);
+			settings.setLoadsImagesAutomatically(true);
+			settings.setLightTouchEnabled(true);
+			settings.setDomStorageEnabled(true);
+			settings.setLoadWithOverviewMode(true);
+
+			updateQuestion();
+		}
+
 	}
 
 	private void setDrawerImage() {
@@ -210,14 +225,18 @@ public class MainActivity extends Activity implements OnMapClickListener {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int id) {
-
+										Intent toFinalAct = new Intent(
+												getBaseContext(),
+												FinalPoints.class);
+										toFinalAct.putExtra("finalPoints",
+												final_point);
+										startActivity(toFinalAct);
 										MainActivity.this.finish();
 									}
 								});
 
 				// create alert dialog
 				AlertDialog alertDialog = alertDialogBuilder.create();
-				// show it
 				alertDialog.show();
 			}
 		});
@@ -226,17 +245,18 @@ public class MainActivity extends Activity implements OnMapClickListener {
 	private String getScore(long result) {
 		double f = 0;
 		if (result >= 0 && result <= 5000) {
-			if (result <= 500)
+			if (result <= 100)
 				f = 0;
-			else if (result > 500 && result <= 1000)
+			else if (result > 100 && result <= 300)
 				f = 0.5;
-			else if (result > 1000 && result <= 2000)
+			else if (result > 300 && result <= 500)
 				f = 1;
-			else if (result > 2000 && result <= 3000)
+			else if (result > 500 && result <= 1000)
 				f = 2;
-			else if (result > 3000 && result <= 4000)
+			else if (result > 1000 && result <= 1500)
 				f = 3;
 			points = 5000 - (int) (f * (result / 10));
+			final_point += points;
 		} else
 			points = 0;
 
@@ -258,18 +278,13 @@ public class MainActivity extends Activity implements OnMapClickListener {
 
 	// The following code will download the Question from the server
 	private void updateQuestion() {
-		new getDataAsync().execute();
-	}
-
-	private String[] downloadNewQuestion() {
-		try {
-			doc = Jsoup.connect(url).get();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String title = doc.body().text();
-		return title.split(":");
-
+		if (!isNetworkAvailable()) {
+			Toast.makeText(getBaseContext(),
+					"You need an active Internet connection to play this game",
+					Toast.LENGTH_LONG).show();
+			MainActivity.this.finish();
+		} else
+			new getDataAsync().execute();
 	}
 
 	public class getDataAsync extends AsyncTask<String, Integer, String> {
@@ -280,7 +295,7 @@ public class MainActivity extends Activity implements OnMapClickListener {
 			dialog = new ProgressDialog(MainActivity.this);
 			dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			dialog.setTitle("Downloading");
-			dialog.setMessage("Getting your Question from the server!!\nPleazse wait");
+			dialog.setMessage("Getting your Question from the server!!");
 			dialog.show();
 		}
 
@@ -302,22 +317,27 @@ public class MainActivity extends Activity implements OnMapClickListener {
 					3000, null);
 			// update UI elements
 			display_name.setText("Where is " + NAME + "?");
-			display_latlng.setText("Point the correct location on the map\nTouch here to see hint");
+			display_latlng
+					.setText("Point the correct location on the map\nTouch here to see hint");
 			setDrawerImage();
 		}
 	}
+	
+	private String[] downloadNewQuestion() {
+		try {
+			doc = Jsoup.connect(url).timeout(0).get();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String title = doc.body().text();
+		return title.split(":");
 
-	@Override
-	protected void onStart() {
-		
-		super.onStart();
 	}
 
-	@Override
-	protected void onStop() {
-		Toast.makeText(getBaseContext(), "Thank you for playing our game",
-				Toast.LENGTH_SHORT).show();
-		super.onStop();
+	private boolean isNetworkAvailable() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null;
 	}
-
 }

@@ -8,5 +8,6 @@
     <string name="title_activity_about">About</string>
     <string name="title_activity_help">Help</string>
     <string name="title_activity_points">Points</string>
+    <string name="title_activity_final_points">FinalPoints</string>
 
 </resources>

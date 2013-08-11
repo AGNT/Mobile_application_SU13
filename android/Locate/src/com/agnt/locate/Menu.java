@@ -15,9 +15,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class Menu extends Activity {
-	private static final String GooglePlayStorePackageNameOld = "com.google.market";
-	private static final String GooglePlayStorePackageNameNew = "com.google.vending";
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

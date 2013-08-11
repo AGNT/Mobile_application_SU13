@@ -1,0 +1,22 @@
+package com.agnt.locate;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class FinalPoints extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_final_points);
+
+		Intent mIntent = getIntent();
+		int intValue = mIntent.getIntExtra("finalPoints", 0);
+
+		TextView finalPoints = (TextView) findViewById(R.id.tv_finalpoints);
+
+	}
+
+}
