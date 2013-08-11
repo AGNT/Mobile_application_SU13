@@ -3,6 +3,34 @@ Locate!
 (Android Game)
 --------------
 
+Instructions
+------------
+To compile this application,</br>
+
+1. Open terminal and go to the directory of your choice (lets call this `<your directory>`)
+```
+cd <your directory>
+```
+
+2. Now type
+```
+git clone https://github.com/AGNT/Mobile_application_SU13.git
+```
+
+3. Now open Eclipse and set `<your directory>/Mobile_application_SU13/android` as your workspace.
+
+4. You should now see 4 files in your project explorer.
+<ul type="circle">
+ <li>[Libraryfile] Google_play_services_lib</li>
+ <li>[Libraryfile] GoogleCardLib and</li> 
+ <li>[Libraryfile] SlidingUp</li>
+ <li>Locate</li>
+</ul>
+</br>All source code written by us is in Locate subdirectory.
+
+5. Connect your phone (with USB debugging turned on) and compile and run the app(see note for more info).
+
+
 Note:
 -----
 If you wish to compile the android code, you will need your own Google Maps api key.
@@ -17,6 +45,7 @@ Once you obtain your API key, modify the following lines in the <a href="https:/
             android:value="<YOUR KEY GOES HERE!!>" 
 />
 ```
+This application needs google play services to work. Hence it will not work in the emulator.
 
 Quick Links
 ------------
@@ -33,7 +62,9 @@ The following libraries have been used to support this application</br>
 <ul type="circle">
  <li><a href="https://github.com/umano/AndroidSlidingUpPanel?source=cc">AndroidSlidingUpPanel</a></li>
  <li><a href="http://developer.android.com/google/play-services/index.html">Google Play Services Libraries</a></li>
+ <li><a href="https://github.com/nhaarman/ListViewAnimations">ListViewAnimations</a></li>
 </ul>
 
 Thank you for taking interest  in this application!!
 ----------------------------------------------------
+

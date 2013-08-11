@@ -2596,3 +2596,13 @@ com.android.ide.eclipse.adt.internal.build.DexException: Conversion to Dalvik fo
 	at com.android.ide.eclipse.adt.internal.wizards.export.ExportWizard.access$0(ExportWizard.java:234)
 	at com.android.ide.eclipse.adt.internal.wizards.export.ExportWizard$1.run(ExportWizard.java:219)
 	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
+!SESSION 2013-08-11 04:02:59.683 -----------------------------------------------
+eclipse.buildId=v22.0.1-685705
+java.version=1.7.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2013-08-11 04:03:19.928
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
