@@ -33,7 +33,9 @@ git clone https://github.com/AGNT/Mobile_application_SU13.git
 
 Note:
 -----
-If you wish to compile the android code, you will need your own Google Maps api key.
+1. This application needs google play services to work. Hence it will not work in the emulator.
+
+2. If you wish to compile the android code, you will need your own Google Maps api key.
 This can be obtained here
 ```
 https://code.google.com/apis/console
@@ -45,7 +47,7 @@ Once you obtain your API key, modify the following lines in the <a href="https:/
             android:value="<YOUR KEY GOES HERE!!>" 
 />
 ```
-This application needs google play services to work. Hence it will not work in the emulator.
+
 
 Quick Links
 ------------
