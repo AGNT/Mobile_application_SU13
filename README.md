@@ -18,6 +18,11 @@ Project Details
 ---------------
 To be updated...
 
+ScreenShots
+-----------
+![ScreenShot][1]	![ScreenShot][2]	![ScreenShot][3]
+![ScreenShot][4]	![ScreenShot][5]	![ScreenShot][5]	
+
 Note from professor: Cay Horstmann 
 ----------------------------------
 Please find 3 other students with whom to do your project for this class. Your team should have two students from Switzerland and two students from somewhere else.
@@ -35,3 +40,10 @@ I will give you a server VM where you can deploy your WAR.
 I am not looking for anything incredibly ambitious, but try to do something interesting and mobile. For example, include the geolocation of submitted questions.
  
 Please add your teams and project ideas as comments to this note.
+
+[1]:https://raw.github.com/AGNT/Mobile_application_SU13/master/android/Screenshots/1.png
+[2]:https://raw.github.com/AGNT/Mobile_application_SU13/master/android/Screenshots/2.png
+[3]:https://raw.github.com/AGNT/Mobile_application_SU13/master/android/Screenshots/3.png
+[4]:https://raw.github.com/AGNT/Mobile_application_SU13/master/android/Screenshots/4.png
+[5]:https://raw.github.com/AGNT/Mobile_application_SU13/master/android/Screenshots/5.png
+[6]:https://raw.github.com/AGNT/Mobile_application_SU13/master/android/Screenshots/6.png
