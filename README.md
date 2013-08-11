@@ -17,6 +17,11 @@ Our team
 Project Details
 ---------------
 This is a simple android game where the user has to find a particular location in the world. The locations are stored on a java server created using Glassfish4. The closer he pin points the location the more points he gets.</br>
+For instructions on how to compile, follow these links
+<ul type="circle">
+ <li><a href="https://github.com/AGNT/Mobile_application_SU13/blob/master/android/README.md">Android</a></li>
+ <li><a href="https://github.com/AGNT/Mobile_application_SU13/blob/master/server/README.md">Server</a></li>
+</ul>
 
 ScreenShots
 -----------
