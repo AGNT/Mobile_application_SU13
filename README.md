@@ -16,7 +16,7 @@ Our team
 
 Project Details
 ---------------
-To be updated...
+This is a simple android game where the user has to find a particular location in the world.The locations are stored on a java server created using Glassfish4.The closer he pin points the location the more points he gets.
 
 ScreenShots
 -----------
